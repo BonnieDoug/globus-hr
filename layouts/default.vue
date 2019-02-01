@@ -1,113 +1,98 @@
 <template>
-  <v-app dark>
+  <v-app light>
     <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
       fixed
+      clipped
+      v-model="drawer"
       app
     >
-      <v-list>
-        <v-list-tile
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+      <v-list dense>
+        <v-list-tile v-for="item in items" :key="item.text" @click="">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" />
+            <v-list-tile-title>
+              {{ item.text }}
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>{{ `chevron_${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>remove</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>menu</v-icon>
-      </v-btn>
-    </v-toolbar>
+    <toolbar/>
     <v-content>
-      <v-container>
-        <nuxt />
+      <v-container fill-height>
+        <v-layout justify-center align-center>
+          <v-flex shrink>
+            <v-tooltip right>
+              <v-btn
+                icon
+                large
+                :href="source"
+                target="_blank"
+                slot="activator"
+              >
+                <v-icon large>code</v-icon>
+              </v-btn>
+              <span>Source</span>
+            </v-tooltip>
+          </v-flex>
+        </v-layout>
       </v-container>
     </v-content>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :fixed="fixed"
-      app
-    >
-      <span>&copy; 2019</span>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
+import Drawer from "../components/layout/Drawer";
+import Toolbar from "../components/layout/Toolbar";
 export default {
+  components: {Toolbar, Drawer},
   data() {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
+      drawer: true,
       items: [
         {
-          icon: 'apps',
-          title: 'Welcome',
-          to: '/'
+          to: '/',
+          icon: 'home',
+          text: 'Home'
         },
         {
-          icon: 'bubble_chart',
-          title: 'Inspire',
-          to: '/inspire'
+          to: 'managing-director-owner',
+          icon: 'person',
+          text: 'Are you a MD or Owner?'
+        },
+        {
+          to: '/360-degree-feedback-2',
+          icon: '360',
+          text: '360 Degree Feedback'
+        },
+        {
+          to: '/hr-system-for-sme-s',
+          icon: 'people',
+          text: 'HR System for SME\'s'
+        },
+        {
+          to: '/leave-feedback',
+          icon: 'feedback',
+          text: 'Feedback'
+        },
+        {
+          to: '/about',
+          icon: 'help',
+          text: 'About Us'
+        },
+        {
+          to: '/contact-us',
+          icon: 'contact_phone',
+          text: 'Contact Us'
+        },
+        {
+          to: '/news-and-events',
+          icon: 'event',
+          text: 'News & Events'
         }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      ]
     }
   }
 }
